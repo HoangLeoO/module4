@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:include="~{layout :: my-header}">
+
+    </th:block>
+</head>
+<body>
+<th:block th:include="~{layout :: my-navbar}"/>
+<div>
+    <form action="create" method="post" th:object="${product}">
+        <div class="mb-3">
+            <label for="id-product" class="form-label">Id</label>
+            <input type="text" th:field="*{id}" class="form-control" id="id-product" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">price</label>
+            <input type="text" th:field="*{price}" class="form-control" id="price">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>

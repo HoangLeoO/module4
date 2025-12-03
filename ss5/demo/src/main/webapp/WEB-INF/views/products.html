@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:include="~{layout :: my-header}">
+
+    </th:block>
+</head>
+<body>
+<th:block th:include="~{layout :: my-navbar}">
+
+</th:block>
+<div>
+    <div th:if="${!#strings.isEmpty(mess)}">
+        <h1 th:text="${mess}"</h1>
+    </div>
+    <div>
+        <a th:href="@{create}">
+            <button>Create product</button>
+        </a>
+    </div>
+    <table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col" colspan="2">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="list,status:${list}">
+        <th scope="row" th:text="${status.count}"></th>
+        <td th:text="${list.name}"></td>
+        <td th:text="${list.price}"></td>
+        <td>
+           <a th:href="@{view/__${list.id}__}">view</a>
+            <a th:href="@{edit/__${list.id}__}">edit</a>
+           <a th:href="@{delete/__${list.id}__}">delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<th:block th:include="~{layout :: my-header}">
+
+</th:block>
+</body>
+</html>
