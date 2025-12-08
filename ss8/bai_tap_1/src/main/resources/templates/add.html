@@ -1,0 +1,55 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{/add}" th:object="${user}">
+    <label for="firstName">First Name:</label>
+    <input id="firstName" th:field="*{firstName}" type="text"/>
+    <span th:if="${#fields.hasErrors('firstName')}"
+          th:each="err : ${#fields.errors('firstName')}"
+          th:text="${err}"></span><br/>
+
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" th:field="*{lastName}" type="text"/>
+    <span th:if="${#fields.hasErrors('lastName')}"
+          th:each="err : ${#fields.errors('lastName')}"
+          th:text="${err}"></span><br/>
+
+    <label for="email">Email:</label>
+    <input id="email" th:field="*{email}" type="email"/>
+    <span th:if="${#fields.hasErrors('email')}"
+          th:each="err : ${#fields.errors('email')}"
+          th:text="${err}"></span><br/>
+
+    <label for="password">Password:</label>
+    <input id="password" th:field="*{password}" type="password"/>
+    <span th:if="${#fields.hasErrors('password')}"
+          th:each="err : ${#fields.errors('password')}"
+          th:text="${err}"></span><br/>
+
+    <label for="birthday">Birthday:</label>
+    <input id="birthday" th:field="*{birthday}" type="date"/>
+    <span th:if="${#fields.hasErrors('birthday')}"
+          th:each="err : ${#fields.errors('birthday')}"
+          th:text="${err}"></span><br/>
+
+    <label for="address">Address:</label>
+    <input id="address" th:field="*{address}" type="text"/>
+    <span th:if="${#fields.hasErrors('address')}"
+          th:each="err : ${#fields.errors('address')}"
+          th:text="${err}"></span><br/>
+
+    <label for="phone">Phone:</label>
+    <input id="phone" th:field="*{phone}" type="text"/>
+    <span th:if="${#fields.hasErrors('phone')}"
+          th:each="err : ${#fields.errors('phone')}"
+          th:text="${err}"></span><br/>
+
+    <button type="submit">Add User</button>
+</form>
+
+</body>
+</html>

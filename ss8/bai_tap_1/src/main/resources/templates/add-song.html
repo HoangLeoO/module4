@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Bài Hát Mới</title>
+    <style>
+        .container { max-width: 600px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; font-size: 0.9em; }
+        .button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .metadata-section { margin-top: 20px; padding: 15px; border: 1px dashed #007bff; background-color: #f9f9ff; border-radius: 4px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>🎶 Thêm Bài Hát Mới</h2>
+
+    <form th:action="@{/add-song}" th:object="${song}" method="post">
+
+        <div class="form-group">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" th:field="*{title}">
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="artist">Nghệ sĩ:</label>
+            <input type="text" id="artist" th:field="*{artist}">
+            <span th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}" class="error"></span>
+        </div>
+
+        <hr/>
+
+        <div class="metadata-section">
+            <h3>Thông tin Mở rộng (JSON Metadata)</h3>
+
+            <div class="form-group">
+                <label for="durationSec">Thời lượng (giây):</label>
+                <input type="number" id="durationSec" th:field="*{durationSec}" name="durationSec"
+                       th:value="${durationSec}" min="0">
+                <span th:if="${#fields.hasErrors('durationSec')}" th:errors="*{durationSec}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Thể loại:</label>
+                <input type="text" id="genre" name="genre" th:field="*{genre}"
+                       th:value="${genre}">
+                <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="error">
+            </div>
+        </div>
+
+        <button type="submit" class="button">Lưu Bài Hát</button>
+        <a th:href="@{/song}" style="margin-left: 10px;">Quay lại Danh sách</a>
+    </form>
+</div>
+</body>
+</html>
