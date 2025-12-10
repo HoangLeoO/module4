@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="layout/layout::head-link"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/layout::my-navbar"></th:block>
+<table class="table table-striped">
+    <h1>
+        Loan detail: <th:block th:text="${loan_id}"></th:block>
+    </h1>
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book, iterStat : ${loans}">
+        <th scope="row" th:text="${iterStat.index + 1}">1</th>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

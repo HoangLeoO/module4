@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="layout/layout::head-link"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/layout::my-navbar"></th:block>
+<form th:action="@{/books/bl/add}" th:object="${bookLoan}" method="post">
+    book: <input type="text" th:field="*{bookId}"><br>
+    loan: <input type="text" th:field="*{loanId}"><br>
+    <input type="submit" value="Add">
+</form>
+</body>
+</html>

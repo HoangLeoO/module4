@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="layout/layout::head-link"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/layout::my-navbar"></th:block>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book, iterStat : ${books}">
+        <th scope="row" th:text="${iterStat.index + 1}">1</th>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.remaining}"></td>
+        <td><a th:href="@{/books/bl/add(book_id=${book.id})}">Muon</a>/
+         <a th:href="@{/books/tra-sach/__${book.id}__}">Tra</a>
+        </td>
+    </tr>
+    </tbody>
+    <th:block th:if="${books.totalPages == 0}">
+        <h2> Trống </h2>
+    </th:block>
+</table>
+<div>
+    <a th:if="${books.hasPrevious()}"  th:href="@{/books(page=${books.number-1})}">Truoc</a>
+    <span th:text="${books.number+1}"></span>/<span th:text="${books.totalPages}"></span>
+    <a th:if="${books.hasNext()}" th:href="@{/books(page=${books.number+1})}">Sau</a>
+</div>
+</body>
+</html>

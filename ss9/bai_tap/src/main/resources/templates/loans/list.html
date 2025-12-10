@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="layout/layout::head-link"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/layout::my-navbar"></th:block>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">code</th>
+        <th scope="col">detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="loan, iterStat : ${loans}">
+        <th scope="row" th:text="${iterStat.index + 1}">1</th>
+        <td th:text="${loan.id}"></td>
+        <td th:text="${loan.code}"></td>
+        <td>
+            <a th:href="@{/loans/detail/__${loan.id}__}">Detail</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
