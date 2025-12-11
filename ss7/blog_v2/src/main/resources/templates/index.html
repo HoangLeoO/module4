@@ -18,7 +18,9 @@
         <th>ID</th>
         <th>Title</th>
         <th>Content</th>
-        <th>Create Time</th> <th>Action</th>
+        <th>Create Time</th>
+        <th>categoryName</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -29,6 +31,7 @@
 
         <td th:text="${blog.title}"></td>
         <td th:text="${blog.content}"></td>
+        <td th:text="${blog.categoryName}"></td>
 
         <td th:text="${#temporals.format(blog.createTime, 'dd/MM/yyyy HH:mm')}"></td>
 

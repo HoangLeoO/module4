@@ -28,6 +28,7 @@ public class Blog {
     @Column(name = "create_time",nullable = false,updatable = false)
     private Instant createTime;
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
 }

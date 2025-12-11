@@ -2,6 +2,7 @@ package org.example.blog_v2.service;
 
 
 
+import org.example.blog_v2.dto.BlogDTO;
 import org.example.blog_v2.entity.Blog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,5 @@ public interface IBlogService {
     Blog getBlogById(Integer id);
     void deleteBlogById(Integer id);
     void updateBlog(Blog blog);
+    Page<BlogDTO> getAllBlogs(String nameBlog, int categoryId, Pageable pageable);
 }

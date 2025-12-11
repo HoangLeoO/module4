@@ -21,8 +21,7 @@ public class Category {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "category")
     @JsonIgnore
-    @JoinColumn(name = "category_id")
     private List<Blog> blogs;
 }

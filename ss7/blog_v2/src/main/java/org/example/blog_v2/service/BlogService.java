@@ -1,6 +1,7 @@
 package org.example.blog_v2.service;
 
 
+import org.example.blog_v2.dto.BlogDTO;
 import org.example.blog_v2.entity.Blog;
 import org.example.blog_v2.repository.IBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,10 @@ public class BlogService implements IBlogService{
     @Override
     public void updateBlog(Blog blog) {
         blogRepository.updateBlog(blog.getTitle(),blog.getContent(),blog.getId());
+    }
+
+    @Override
+    public Page<BlogDTO> getAllBlogs(String nameBlog, int categoryId, Pageable pageable) {
+        return blogRepository.getAllBlogs(nameBlog,categoryId,pageable);
     }
 }

@@ -1,5 +1,6 @@
 package org.example.blog_v2.controller;
 
+import org.example.blog_v2.dto.BlogDTO;
 import org.example.blog_v2.entity.Blog;
 import org.example.blog_v2.service.IBlogService;
 import org.example.blog_v2.service.ICategoryService;
@@ -22,14 +23,16 @@ public class BlogController {
     }
 
     @GetMapping("/")
-    public String index(Model model, @RequestParam(defaultValue = "0",name = "page") Integer page){
+    public String index(
+            Model model,
+            @RequestParam(defaultValue = "0",name = "page") Integer page){
         int size = 5;
-        Page<Blog> blogs = blogService.getAllBlogs(page, size, Sort.by("createTime").descending());
+//        Page<Blog> blogs = blogService.getAllBlogs(page, size, Sort.by("createTime").descending());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createTime").descending());
-        Page<Blog> blogs1 = blogService.findAllByCategory_Id(2,pageable);
-        model.addAttribute("blogs",blogs1.getContent());
+        Page<BlogDTO> blogs1 = blogService.getAllBlogs("",1,pageable);
+        model.addAttribute("blogs",blogs1);
         model.addAttribute("currentPage",page);
-        model.addAttribute("totalPages",blogs.getTotalPages());
+        model.addAttribute("totalPages",blogs1.getTotalPages());
         return "index";
     }
 
