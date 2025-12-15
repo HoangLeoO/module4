@@ -52,6 +52,7 @@ public class BlogService implements IBlogService{
 
     @Override
     public Page<BlogDTO> getAllBlogs(String nameBlog, int categoryId, Pageable pageable) {
-        return blogRepository.getAllBlogs(nameBlog,categoryId,pageable);
+        String title = "%"+nameBlog+"%";
+        return blogRepository.getAllBlogs(title,categoryId,pageable);
     }
 }

@@ -36,6 +36,7 @@ public class BlogController {
         return "index";
     }
 
+
     @GetMapping("/create")
     public String add(Model model){
         model.addAttribute("blog",new Blog());

@@ -13,8 +13,8 @@ public interface IBlogRepository extends JpaRepository<Blog, Integer> {
 
     Page<Blog> findAllByCategory_Id(Integer categoryId, Pageable pageable);
 
-    @Query(value = "select new  org.example.blog_v2.dto.BlogDTO(b.id,b.title,b.content,b.createTime,c.name) from Blog b join b.category c where c.id = :categoryId",nativeQuery = false)
-    Page<BlogDTO> getAllBlogs(String nameBlog,@Param("categoryId") int categoryId,Pageable pageable);
+    @Query(value = "select new  org.example.blog_v2.dto.BlogDTO(b.id,b.title,b.content,b.createTime,c.name) from Blog b join b.category c where  b.title like :nameBlog",nativeQuery = false)
+    Page<BlogDTO> getAllBlogs(@Param("nameBlog") String nameBlog, int categoryId,Pageable pageable);
 
     @Modifying
     @Query(value = "update blog as b set b.title = :title , b.content = :content where b.id = :id" ,nativeQuery = true)

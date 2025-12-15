@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/v1/blogs")
 public class BlogRestController {
 
@@ -30,16 +31,19 @@ public class BlogRestController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<BlogDTO>> list(@RequestParam(defaultValue = "0", name = "page") Integer page) {
+    public ResponseEntity<Page<BlogDTO>> list(
+            @RequestParam(defaultValue = "0",
+                    name = "page") Integer page,
+            @RequestParam(name = "keySearch" ,defaultValue = "",required = false) String title ) {
         int size = 5;
         Pageable pageable = PageRequest.of(page, size, Sort.by("createTime").descending());
-        Page<BlogDTO> blogs1 = blogService.getAllBlogs("", 1, pageable);
+        Page<BlogDTO> blogs1 = blogService.getAllBlogs(title, 2, pageable);
         if (blogs1.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(blogs1,HttpStatus.OK);
     }
-    @GetMapping("/categorys")
+    @GetMapping("/categories")
     public ResponseEntity<List<Category>> listCategory(){
         List<Category> categories = categoryService.getAllCategories();
         return new ResponseEntity<>(categories,HttpStatus.OK);
@@ -49,5 +53,13 @@ public class BlogRestController {
     public ResponseEntity<Blog> getBlog(@PathVariable(name = "id") Integer id){
         Blog blog = blogService.getBlogById(id);
         return new ResponseEntity<>(blog,HttpStatus.OK);
+    }
+
+
+    @PostMapping("/create")
+    public ResponseEntity<?> saveBlog(@RequestBody Blog blog){
+        System.out.println(blog.getCategory()+ " ----- " +blog.getTitle());
+        blogService.saveBlog(blog);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
