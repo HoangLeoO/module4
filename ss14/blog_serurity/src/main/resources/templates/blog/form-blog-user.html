@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viết bài mới - Blog Dev</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #4e73df, #224abe);
+            --dark-bg: #1e1e2f;
+            --card-bg: #2d2d44;
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a27;
+            color: var(--text-primary);
+        }
+
+        /* Navbar reused */
+        .navbar {
+            background-color: rgba(30, 30, 47, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff !important;
+        }
+
+        /* Form Styling */
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control {
+            background-color: #1a1a27;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 15px;
+        }
+
+        .form-control:focus {
+            background-color: #151521;
+            border-color: #4e73df;
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: #cbd5e1;
+            opacity: 1;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 12px 24px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+        }
+
+        .btn-outline-secondary {
+            color: var(--text-secondary);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline-secondary:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-code me-2"></i>BlogDev
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="fas fa-bars text-white"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-arrow-left me-1"></i> Quay lại trang chủ</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="text-white-50 me-2">Đăng bài với tư cách:</span>
+                    <span class="fw-bold text-white" sec:authentication="name">User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 100px; margin-bottom: 60px;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <h2 class="mb-4 fw-bold">
+                    <i class="fas fa-pen-nib me-2 text-primary"></i>
+                    <span th:text="${blog.id} ? 'Chỉnh sửa bài viết' : 'Viết bài mới'">Viết bài mới</span>
+                </h2>
+
+                <div class="form-card p-4 p-md-5">
+                    <form th:action="${blog.id} ? @{/blogs/edit} : @{/blogs/create}" th:object="${blog}" method="post">
+                        <!-- Hidden ID -->
+                        <input type="hidden" th:field="*{id}">
+
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label">Tiêu đề bài viết</label>
+                            <input type="text" th:field="*{title}" class="form-control form-control-lg fs-4 fw-bold"
+                                id="title" placeholder="Nhập tiêu đề ấn tượng..." required>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('title')}"
+                                th:errors="*{title}"></div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-4">
+                            <label for="content" class="form-label">Nội dung</label>
+                            <textarea th:field="*{content}" class="form-control" id="content" rows="15"
+                                placeholder="Chia sẻ kiến thức của bạn tại đây..." required></textarea>
+                            <div class="form-text text-muted mt-2">
+                                <i class="fab fa-markdown me-1"></i> Hỗ trợ định dạng cơ bản.
+                            </div>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('content')}"
+                                th:errors="*{content}"></div>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-4">
+                            <label for="status" class="form-label">Trạng thái</label>
+                            <select th:field="*{status}" class="form-select" id="status">
+                                <option value="DRAFT">Bản nháp</option>
+                                <option value="PUBLISHED">Công khai</option>
+                            </select>
+                        </div>
+
+                        <!-- Actions -->
+                        <div
+                            class="d-flex justify-content-end gap-3 pt-3 border-top border-secondary border-opacity-25">
+                            <!-- Delete Button (Only for existing blogs) -->
+                            <a th:if="${blog.id}" th:href="@{/blogs/delete/{id}(id=${blog.id})}"
+                                class="btn btn-outline-danger px-4"
+                                onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                <i class="fas fa-trash-alt me-2"></i> Xóa
+                            </a>
+
+                            <a href="/users/detail" class="btn btn-outline-secondary px-4">Hủy bỏ</a>
+                            <button type="submit" id="btn-submit" class="btn btn-primary-custom px-5">
+                                <i class="fas fa-paper-plane me-2"></i> <span id="btn-text">Lưu nháp</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Auto-resize textarea & Dynamic Button Text -->
+    <script>
+        // Auto-resize textarea
+        const tx = document.getElementsByTagName("textarea");
+        for (let i = 0; i < tx.length; i++) {
+            tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+            tx[i].addEventListener("input", OnInput, false);
+        }
+
+        function OnInput() {
+            this.style.height = "auto";
+            this.style.height = (this.scrollHeight) + "px";
+        }
+
+        // Dynamic Button Text
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusSelect = document.getElementById('status');
+            const btnText = document.getElementById('btn-text');
+            const btnSubmit = document.getElementById('btn-submit');
+            const icon = btnSubmit.querySelector('i');
+
+            function updateButton() {
+                if (statusSelect.value === 'PUBLISHED') {
+                    btnText.textContent = 'Đăng bài';
+                    icon.className = 'fas fa-rocket me-2'; // Change icon for effect
+                } else {
+                    btnText.textContent = 'Lưu nháp';
+                    icon.className = 'fas fa-save me-2'; // Change icon for effect
+                }
+            }
+
+            statusSelect.addEventListener('change', updateButton);
+
+            // Initialize
+            updateButton();
+        });
+    </script>
+</body>
+
+</html>
